@@ -1,0 +1,73 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <Frame name="BearForceOne_OptionsFrame">
+        <Scripts>
+            <OnLoad>
+                self.name = "BearForceOne"
+                InterfaceOptions_AddCategory(self);
+            </OnLoad>
+        </Scripts>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <FontString inherits="GameFont_Gigantic" text="Bear Force One">
+                    <Color a="1" r="1" g="1" b="1" />
+                    <Anchors><Anchor point="TOP"><Offset x="0" y="-30"/></Anchor></Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <CheckButton name="BearForceOne_EmoteToggle" inherits="UICheckButtonTemplate">
+                <Anchors><Anchor point="TOPLEFT"><Offset x="50" y="-100"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="Enable emote synchronization" inherits="GameTooltipHeader">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick> bfoConfig.EMOTES_ENABLED = self:GetChecked() </OnClick>
+                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.EMOTES_ENABLED) end </OnShow>
+                </Scripts>
+            </CheckButton>
+            <CheckButton name="BearForceOne_MusicToggle" inherits="UICheckButtonTemplate">
+                <Anchors><Anchor relativeTo="BearForceOne_EmoteToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="Enable music in alliance zones" inherits="GameTooltipHeader">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick> bfoConfig.MUSIC_ENABLED = self:GetChecked() </OnClick>
+                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.MUSIC_ENABLED) end </OnShow>
+                </Scripts>
+            </CheckButton>
+            <CheckButton name="BearForceOne_SoundToggle" inherits="UICheckButtonTemplate">
+                <Anchors><Anchor relativeTo="BearForceOne_MusicToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="Enable sound effects" inherits="GameTooltipHeader">
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnClick> bfoConfig.SOUND_ENABLED = self:GetChecked() </OnClick>
+                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.SOUND_ENABLED) end </OnShow>
+                </Scripts>
+            </CheckButton>
+        </Frames>
+        <Backdrop bgFile="Interface\AddOns\BearForceOne\Graphics\bg.tga">
+        </Backdrop>
+    </Frame>
+</Ui>

@@ -1,0 +1,9 @@
+## Interface: 50300
+## Title: Bear Force One
+## Notes: SMD
+## Author: shem
+## Version: 0.794
+## SavedVariables: bfoConfig
+
+BearForceOne.lua
+BearForceOne_OptionsFrame.xml
