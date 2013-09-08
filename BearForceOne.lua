@@ -103,3 +103,5 @@ end);
 for k, v in pairs(events) do
  frame:RegisterEvent(k); -- Register all events for which handlers have been defined
 end
+
+RegisterAddonMessagePrefix("bfo")
