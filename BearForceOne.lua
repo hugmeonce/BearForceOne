@@ -34,7 +34,7 @@ local defaultConfig = {
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
   if bfoConfig.EMOTES_ENABLED and IsInGuild() then
-    SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
+    SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "PARTY")
   else
     originalDoEmote(emoteName)
   end
