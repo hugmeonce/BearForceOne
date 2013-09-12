@@ -1,11 +1,23 @@
 local BEAR_FORCE_ONE_ADDON_PREFIX = "bfo"
 
-local BEAR_FORCE_ONE_MUSIC = "Interface\\AddOns\\BearForceOne\\Sound\\bfo.mp3"
+local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
 
-local ACHIEVEMENT_SOUND = "Interface\\AddOns\\BearForceOne\\Sound\\achievement.mp3"
-local NEW_PARTY_MEMBER_SOUND = "Interface\\AddOns\\BearForceOne\\Sound\\party join.mp3"
-local PLAYER_DEATH_SOUND = "Interface\\AddOns\\BearForceOne\\Sound\\death.mp3"
+local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.mp3"
+
+local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.mp3"
+local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.mp3"
+local PLAYER_DEATH_SOUND = SOUNDS_DIR .. "death.mp3"
+
+local PVP_KILLS_SOUNDS = {
+  SOUNDS_DIR .. "achievement.mp3",
+  SOUNDS_DIR .. "death.mp3",
+  SOUNDS_DIR .. "enter alliance.mp3",
+  SOUNDS_DIR .. "honor kill.mp3",
+  SOUNDS_DIR .. "party join.mp3",
+}
+
 local playingBFOMusic = false
+local lastPvpSoundTime = 0
 
 local playersInGroup = 1 -- see GROUP_ROSTER_UPDATE
 
@@ -79,6 +91,14 @@ end
 
 function events:PLAYER_DEAD()
   playBFOSound(PLAYER_DEATH_SOUND)
+end
+
+function events:PLAYER_PVP_KILLS_CHANGED()
+  if GetTime() > lastPvpSoundTime + 0.5 and bfoConfig.SOUND_ENABLED then
+    PlaySoundFile(PVP_KILLS_SOUNDS[random(#PVP_KILLS_SOUNDS)])
+    lastPvpSoundTime = GetTime()
+  end
+  
 end
 
 function events:ZONE_CHANGED_NEW_AREA()
