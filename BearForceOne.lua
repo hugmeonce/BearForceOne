@@ -2,7 +2,12 @@ local BEAR_FORCE_ONE_ADDON_PREFIX = "bfo"
 
 local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
 
+<<<<<<< HEAD
 local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.ogg"
+=======
+local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.mp3"
+local BOSS_MUSIC = SOUNDS_DIR .. "mgs.ogg"
+>>>>>>> 5cfdc01... Added boss music
 
 local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.ogg"
 local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.ogg"
@@ -87,6 +92,12 @@ function events:GROUP_ROSTER_UPDATE()
     playBFOSound(NEW_PARTY_MEMBER_SOUND)
   end
   playersInGroup = GetNumGroupMembers()
+end
+
+function events:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+  if bfoConfig.MUSIC_ENABLED then
+    PlayMusic(BOSS_MUSIC)
+  end
 end
 
 function events:PLAYER_DEAD()
