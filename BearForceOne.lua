@@ -2,18 +2,18 @@ local BEAR_FORCE_ONE_ADDON_PREFIX = "bfo"
 
 local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
 
-local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.mp3"
+local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.ogg"
 
-local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.mp3"
-local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.mp3"
-local PLAYER_DEATH_SOUND = SOUNDS_DIR .. "death.mp3"
+local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.ogg"
+local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.ogg"
+local PLAYER_DEATH_SOUND = SOUNDS_DIR .. "death.ogg"
 
 local PVP_KILLS_SOUNDS = {
-  SOUNDS_DIR .. "achievement.mp3",
-  SOUNDS_DIR .. "death.mp3",
-  SOUNDS_DIR .. "enter alliance.mp3",
-  SOUNDS_DIR .. "honor kill.mp3",
-  SOUNDS_DIR .. "party join.mp3",
+  SOUNDS_DIR .. "achievement.ogg",
+  SOUNDS_DIR .. "death.ogg",
+  SOUNDS_DIR .. "enter alliance.ogg",
+  SOUNDS_DIR .. "honor kill.ogg",
+  SOUNDS_DIR .. "party join.ogg",
 }
 
 local playingBFOMusic = false
@@ -53,7 +53,7 @@ DoEmote = function(emoteName)
 end
 
 function playBFOMusic()
-  if bfoConfig.MUSIC_ENABLED and not playingBFOMusic then 
+  if bfoConfig.MUSIC_ENABLED and not playingBFOMusic then
     PlayMusic(BEAR_FORCE_ONE_MUSIC)
     playingBFOMusic = true
   end
@@ -98,7 +98,7 @@ function events:PLAYER_PVP_KILLS_CHANGED()
     PlaySoundFile(PVP_KILLS_SOUNDS[random(#PVP_KILLS_SOUNDS)])
     lastPvpSoundTime = GetTime()
   end
-  
+
 end
 
 function events:ZONE_CHANGED_NEW_AREA()
@@ -111,8 +111,8 @@ end
 
 -- I should confirm that this actually does something
 function events:VARIABLES_LOADED(addonName)
-  if not bfoConfig then 
-    bfoConfig = defaultConfig; 
+  if not bfoConfig then
+    bfoConfig = defaultConfig;
   end
 end
 
