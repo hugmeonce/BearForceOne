@@ -20,6 +20,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable emote synchronization" inherits="GameTooltipHeader">
+                            <Color r="0" g="0" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -28,8 +29,13 @@
                     </Layer>
                 </Layers>
                 <Scripts>
+                    <OnLoad> self:RegisterEvent("VARIABLES_LOADED") </OnLoad>
                     <OnClick> bfoConfig.EMOTES_ENABLED = self:GetChecked() </OnClick>
-                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.EMOTES_ENABLED) end </OnShow>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if bfoConfig then self:SetChecked(bfoConfig.EMOTES_ENABLED) end
+                        end
+                    </OnEvent>
                 </Scripts>
             </CheckButton>
             <CheckButton name="BearForceOne_MusicToggle" inherits="UICheckButtonTemplate">
@@ -37,6 +43,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable music in alliance zones" inherits="GameTooltipHeader">
+                            <Color r="0" g="0" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -45,8 +52,13 @@
                     </Layer>
                 </Layers>
                 <Scripts>
+                    <OnLoad> self:RegisterEvent("VARIABLES_LOADED") </OnLoad>
                     <OnClick> bfoConfig.MUSIC_ENABLED = self:GetChecked() </OnClick>
-                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.MUSIC_ENABLED) end </OnShow>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if bfoConfig then self:SetChecked(bfoConfig.MUSIC_ENABLED) end
+                        end
+                    </OnEvent>
                 </Scripts>
             </CheckButton>
             <CheckButton name="BearForceOne_SoundToggle" inherits="UICheckButtonTemplate">
@@ -54,6 +66,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable sound effects" inherits="GameTooltipHeader">
+                            <Color r="0" g="0" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -62,8 +75,13 @@
                     </Layer>
                 </Layers>
                 <Scripts>
+                    <OnLoad> self:RegisterEvent("VARIABLES_LOADED") </OnLoad>
                     <OnClick> bfoConfig.SOUND_ENABLED = self:GetChecked() </OnClick>
-                    <OnShow> if bfoConfig then self:SetChecked(bfoConfig.SOUND_ENABLED) end </OnShow>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if bfoConfig then self:SetChecked(bfoConfig.SOUND_ENABLED) end
+                        end
+                    </OnEvent>
                 </Scripts>
             </CheckButton>
         </Frames>

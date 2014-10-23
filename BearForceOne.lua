@@ -2,12 +2,8 @@ local BEAR_FORCE_ONE_ADDON_PREFIX = "bfo"
 
 local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
 
-<<<<<<< HEAD
 local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.ogg"
-=======
-local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.mp3"
 local BOSS_MUSIC = SOUNDS_DIR .. "mgs.ogg"
->>>>>>> 5cfdc01... Added boss music
 
 local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.ogg"
 local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.ogg"
@@ -50,16 +46,19 @@ local defaultConfig = {
 -- Overriding DoEmote is probably a bad idea...
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
+  print(bfoConfig.EMOTES_ENABLED)
   if bfoConfig.EMOTES_ENABLED and IsInGuild() then
-    SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "PARTY")
+    print("doing special emote")
+    SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
   else
+    print("using original emote")
     originalDoEmote(emoteName)
   end
 end
 
 function playBFOMusic()
   if bfoConfig.MUSIC_ENABLED and not playingBFOMusic then
-    PlayMusic(BEAR_FORCE_ONE_MUSIC)
+    PlaySoundFile(BEAR_FORCE_ONE_MUSIC, "Music")
     playingBFOMusic = true
   end
 end
@@ -84,7 +83,7 @@ function events:ACHIEVEMENT_EARNED()
 end
 
 function events:CHAT_MSG_ADDON(prefix, msg, type, sender)
-  if prefix == BEAR_FORCE_ONE_ADDON_PREFIX then originalDoEmote(msg) end
+  if prefix == BEAR_FORCE_ONE_ADDON_PREFIX and bfoConfig.EMOTES_ENABLED then originalDoEmote(msg) end
 end
 
 function events:GROUP_ROSTER_UPDATE()
@@ -96,7 +95,7 @@ end
 
 function events:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
   if bfoConfig.MUSIC_ENABLED then
-    PlayMusic(BOSS_MUSIC)
+    PlaySoundFile(BOSS_MUSIC, "Music")
   end
 end
 
