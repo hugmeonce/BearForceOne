@@ -46,12 +46,9 @@ local defaultConfig = {
 -- Overriding DoEmote is probably a bad idea...
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
-  print(bfoConfig.EMOTES_ENABLED)
   if bfoConfig.EMOTES_ENABLED and IsInGuild() then
-    print("doing special emote")
     SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
   else
-    print("using original emote")
     originalDoEmote(emoteName)
   end
 end
