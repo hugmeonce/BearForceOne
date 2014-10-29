@@ -20,7 +20,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable emote synchronization" inherits="GameTooltipHeader">
-                            <Color r="0" g="0" b="1" a="1"/>
+                            <Color r="1" g="1" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -43,7 +43,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable music in alliance zones" inherits="GameTooltipHeader">
-                            <Color r="0" g="0" b="1" a="1"/>
+                            <Color r="1" g="1" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -66,7 +66,7 @@
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable sound effects" inherits="GameTooltipHeader">
-                            <Color r="0" g="0" b="1" a="1"/>
+                            <Color r="1" g="1" b="1" a="1"/>
                             <Anchors>
                                 <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
                                 </Anchor>
@@ -84,6 +84,39 @@
                     </OnEvent>
                 </Scripts>
             </CheckButton>
+            <Slider name="BearForceOne_MGSSlider" inherits="OptionsSliderTemplate">
+                <Anchors><Anchor relativeTo="BearForceOne_SoundToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="METAL GAY SOLID AMOUNT" outline="THICK" inherits="GameTooltipHeader">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:RegisterEvent("VARIABLES_LOADED")
+                        getglobal(self:GetName().."Low"):SetText("0")
+                        getglobal(self:GetName().."High"):SetText("100")
+                        self:SetMinMaxValues(0,100);
+                        self:SetValueStep(20);
+                    </OnLoad>
+                    <OnClick> </OnClick>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if not bfoConfig.MGS_PERCENT then bfoConfig.MGS_PERCENT = 0 end
+                            if bfoConfig then self:SetValue(bfoConfig.MGS_PERCENT) end
+                        end
+                    </OnEvent>
+                    <OnValueChanged>
+                        bfoConfig.MGS_PERCENT = value
+                    </OnValueChanged>
+                </Scripts>
+            </Slider>
         </Frames>
         <Backdrop bgFile="Interface\AddOns\BearForceOne\Graphics\bg.tga">
         </Backdrop>

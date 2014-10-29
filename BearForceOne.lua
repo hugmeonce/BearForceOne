@@ -4,6 +4,7 @@ local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
 
 local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.ogg"
 local BOSS_MUSIC = SOUNDS_DIR .. "mgs.ogg"
+local MGS_FULL_MUSIC = SOUNDS_DIR .. "mgs_full.ogg"
 
 local ACHIEVEMENT_SOUND = SOUNDS_DIR .. "achievement.ogg"
 local NEW_PARTY_MEMBER_SOUND = SOUNDS_DIR .. "party join.ogg"
@@ -41,6 +42,7 @@ local defaultConfig = {
   EMOTES_ENABLED = true,
   MUSIC_ENABLED = true,
   SOUND_ENABLED = true,
+  MGS_PERCENT = 0,
 }
 
 -- Overriding DoEmote is probably a bad idea...
@@ -55,7 +57,7 @@ end
 
 function playBFOMusic()
   if bfoConfig.MUSIC_ENABLED and not playingBFOMusic then
-    PlaySoundFile(BEAR_FORCE_ONE_MUSIC, "Music")
+    PlayMusic(BEAR_FORCE_ONE_MUSIC)
     playingBFOMusic = true
   end
 end
@@ -92,7 +94,7 @@ end
 
 function events:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
   if bfoConfig.MUSIC_ENABLED then
-    PlaySoundFile(BOSS_MUSIC, "Music")
+    PlayMusic(BOSS_MUSIC)
   end
 end
 
@@ -109,7 +111,9 @@ function events:PLAYER_PVP_KILLS_CHANGED()
 end
 
 function events:ZONE_CHANGED_NEW_AREA()
-  if ALLIANCE_ZONES[GetZoneText()] then
+  if math.random(0,100) < bfoConfig.MGS_PERCENT then
+    PlayMusic(MGS_FULL_MUSIC)
+  elseif ALLIANCE_ZONES[GetZoneText()] then
     playBFOMusic()
   else
     stopBFOMusic()
