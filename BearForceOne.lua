@@ -127,6 +127,12 @@ function events:VARIABLES_LOADED(addonName)
   end
 end
 
+SLASH_BOYBOYSBOYS1 = '/boysboysboys';
+local function handler()
+ events:ACHIEVEMENT_EARNED()
+end
+SlashCmdList["BOYBOYSBOYS"] = handler;
+
 -- This may or may not be ripped straight out of the beginner's tutorial
 frame:SetScript("OnEvent", function(self, event, ...)
  events[event](self, ...); -- call one of the functions above
