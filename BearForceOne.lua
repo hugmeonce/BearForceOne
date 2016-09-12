@@ -1,6 +1,15 @@
 local BEAR_FORCE_ONE_ADDON_PREFIX = "bfo"
 
+local FONTS_DIR = "Interface\\AddOns\\BearForceOne\\Fonts\\"
+local GRAPHICS_DIR = "Interface\\AddOns\\BearForceOne\\Graphics\\"
 local SOUNDS_DIR = "Interface\\AddOns\\BearForceOne\\Sound\\"
+
+local BOTTOM_PATH = GRAPHICS_DIR .. "bottom.tga"
+local ROBERT_PATH = GRAPHICS_DIR .. "robert.tga"
+local YURI_PATH = GRAPHICS_DIR .. "yuri.tga"
+local ANIM_DURATION = 14
+
+local BOYS_FONT_PATH = FONTS_DIR .. "BANANASP.TTF"
 
 local BEAR_FORCE_ONE_MUSIC = SOUNDS_DIR .. "bfo.ogg"
 local BOSS_MUSIC = SOUNDS_DIR .. "mgs.ogg"
@@ -77,8 +86,126 @@ end
 
 local frame, events = CreateFrame("Frame"), {};
 
+function createAnimationFrame(texture_file, initial_delay_s, side)
+  local anim_frame = CreateFrame("Frame", "BearForceOne_Frame", UIParent)
+  local h = anim_frame:GetParent():GetHeight()
+  local w = h / 2
+  local offset_x = h / 2
+  local offset_y = 0
+
+  if side == "LEFT" then
+    anchor_point = "RIGHT"
+  elseif side == "BOTTOM" then
+    anchor_point = "TOP"
+    w = anim_frame:GetParent():GetWidth()
+    h = w / 4
+    offset_x = 0
+    offset_y = h
+  else
+    anchor_point = "LEFT"
+    offset_x = offset_x * -1
+  end
+
+  anim_frame:SetPoint(anchor_point, UIParent, side, 0, 0)
+  anim_frame:SetFrameStrata("HIGH")
+
+  anim_frame:SetSize(w, h)
+  anim_frame:Hide()
+
+  local texture = anim_frame:CreateTexture()
+  texture:SetAllPoints()
+  texture:SetTexture(texture_file)
+
+  local group = texture:CreateAnimationGroup()
+
+  local initial_delay = group:CreateAnimation("Animation")
+  initial_delay:SetDuration(initial_delay_s)
+  initial_delay:SetOrder(0)
+
+  local translate = group:CreateAnimation("Translation")
+  translate:SetOffset(offset_x, offset_y)
+  translate:SetDuration(0.2)
+  translate:SetOrder(1)
+
+  local delay = group:CreateAnimation("Animation")
+  delay:SetDuration(ANIM_DURATION - initial_delay_s)
+  delay:SetOrder(1)
+
+  local translate_back = group:CreateAnimation("Translation")
+  translate_back:SetOffset(offset_x * -1, offset_y * -1)
+  translate_back:SetDuration(0.8)
+  translate_back:SetOrder(2)
+
+  anim_frame:SetScript("OnShow", function(self)
+    group:Play()
+  end)
+
+  group:SetScript("OnFinished", function(self)
+    anim_frame:Hide()
+  end)
+
+  return anim_frame
+end
+
+function createTextScroll(font_size, direction, y_offset)
+  textFrame =  CreateFrame("Frame", "BearForceOne_Frame", UIParent)
+  if direction == "LEFT" then
+    anchor_point = "BOTTOMRIGHT"
+    translation_offset = textFrame:GetParent():GetWidth() * -5
+  else
+    anchor_point = "BOTTOMLEFT"
+    translation_offset = textFrame:GetParent():GetWidth() * 5
+  end
+
+  textFrame:ClearAllPoints()
+  textFrame:SetHeight(font_size)
+  textFrame:SetWidth(textFrame:GetParent():GetWidth() * 4)
+  textFrame:Hide()
+  textFrame.text = textFrame:CreateFontString(nil, "HIGH", "PVPInfoTextFont")
+  textFrame.text:SetAllPoints()
+  textFrame:SetPoint(direction, UIParent, anchor_point, 0, y_offset)
+  textFrame.text:SetFont(BOYS_FONT_PATH, font_size, "")
+  textFrame.text:SetText(string.rep("BOYS    ", 50))
+  textFrame.text:SetTextColor(math.random(), math.random(), math.random())
+  textFrame:SetAlpha(1)
+
+  local group = textFrame:CreateAnimationGroup()
+
+  local translate = group:CreateAnimation("Translation")
+  translate:SetOffset(translation_offset, 0)
+  translate:SetDuration(ANIM_DURATION)
+  translate:SetOrder(1)
+
+  textFrame:SetScript("OnShow", function(self)
+    group:Play()
+  end)
+
+  group:SetScript("OnFinished", function(self)
+    textFrame:Hide()
+  end)
+
+  return textFrame
+end
+
 function events:ACHIEVEMENT_EARNED()
   playBFOSound(ACHIEVEMENT_SOUND)
+
+  anim_frame = createAnimationFrame(ROBERT_PATH, 0, "LEFT")
+  anim_frame2 = createAnimationFrame(YURI_PATH, 0.4, "RIGHT")
+  anim_frame3 = createAnimationFrame(BOTTOM_PATH, 0.8, "BOTTOM")
+
+  anim_frame:Show()
+  anim_frame2:Show()
+  anim_frame3:Show()
+
+  for i = 0, UIParent:GetWidth(), 150 do
+    if ((i / 75) % 4 == 0) then
+      textFrame = createTextScroll(75, "RIGHT", i)
+    else
+      textFrame = createTextScroll(75, "LEFT", i)
+    end
+    textFrame:Show()
+  end
 end
 
 function events:CHAT_MSG_ADDON(prefix, msg, type, sender)
@@ -128,6 +255,7 @@ function events:VARIABLES_LOADED(addonName)
 end
 
 SLASH_BOYBOYSBOYS1 = '/boysboysboys';
+SLASH_BOYBOYSBOYS1 = '/bbb';
 local function handler()
  events:ACHIEVEMENT_EARNED()
 end
