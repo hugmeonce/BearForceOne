@@ -45,6 +45,14 @@ local ALLIANCE_ZONES = {
   ["Teldrassil"] = true,
   ["Westfall"] = true,
   ["Wetlands"] = true,
+
+  -- Legion --
+  ["Suramar"] = true,
+  ["Azsuna"] = true,
+  ["Highmountain"] = true,
+  ["Val'sharah"] = true,
+  ["Stormheim"] = true,
+  ["Thunder Totem"] = true,
 }
 
 local defaultConfig = {
