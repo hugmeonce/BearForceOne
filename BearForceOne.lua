@@ -208,6 +208,10 @@ function events:ACHIEVEMENT_EARNED()
   end
 end
 
+function events:PLAYER_LEVEL_UP()
+  events:ACHIEVEMENT_EARNED()
+end
+
 function events:CHAT_MSG_ADDON(prefix, msg, type, sender)
   if prefix == BEAR_FORCE_ONE_ADDON_PREFIX and bfoConfig.EMOTES_ENABLED then originalDoEmote(msg) end
 end
