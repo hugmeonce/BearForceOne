@@ -59,6 +59,7 @@ local defaultConfig = {
   EMOTES_ENABLED = true,
   MUSIC_ENABLED = true,
   SOUND_ENABLED = true,
+  ANIM_ENABLED = true,
   MGS_PERCENT = 0,
 }
 
@@ -115,7 +116,7 @@ function createAnimationFrame(texture_file, initial_delay_s, side)
   end
 
   anim_frame:SetPoint(anchor_point, UIParent, side, 0, 0)
-  anim_frame:SetFrameStrata("HIGH")
+  anim_frame:SetFrameStrata("BACKGROUND")
 
   anim_frame:SetSize(w, h)
   anim_frame:Hide()
@@ -168,6 +169,7 @@ function createTextScroll(font_size, direction, y_offset)
   textFrame:ClearAllPoints()
   textFrame:SetHeight(font_size)
   textFrame:SetWidth(textFrame:GetParent():GetWidth() * 4)
+  textFrame:SetFrameStrata("BACKGROUND")
   textFrame:Hide()
   textFrame.text = textFrame:CreateFontString(nil, "HIGH", "PVPInfoTextFont")
   textFrame.text:SetAllPoints()
@@ -198,21 +200,23 @@ end
 function events:ACHIEVEMENT_EARNED()
   playBFOSound(ACHIEVEMENT_SOUND)
 
-  anim_frame = createAnimationFrame(ROBERT_PATH, 0, "LEFT")
-  anim_frame2 = createAnimationFrame(YURI_PATH, 0.4, "RIGHT")
-  anim_frame3 = createAnimationFrame(BOTTOM_PATH, 0.8, "BOTTOM")
+  if bfoConfig.ANIM_ENABLED then
+    anim_frame = createAnimationFrame(ROBERT_PATH, 0, "LEFT")
+    anim_frame2 = createAnimationFrame(YURI_PATH, 0.4, "RIGHT")
+    anim_frame3 = createAnimationFrame(BOTTOM_PATH, 0.8, "BOTTOM")
 
-  anim_frame:Show()
-  anim_frame2:Show()
-  anim_frame3:Show()
+    anim_frame:Show()
+    anim_frame2:Show()
+    anim_frame3:Show()
 
-  for i = 0, UIParent:GetWidth(), 150 do
-    if ((i / 75) % 4 == 0) then
-      textFrame = createTextScroll(75, "RIGHT", i)
-    else
-      textFrame = createTextScroll(75, "LEFT", i)
+    for i = 0, UIParent:GetWidth(), 150 do
+      if ((i / 75) % 4 == 0) then
+        textFrame = createTextScroll(75, "RIGHT", i)
+      else
+        textFrame = createTextScroll(75, "LEFT", i)
+      end
+      textFrame:Show()
     end
-    textFrame:Show()
   end
 end
 

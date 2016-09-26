@@ -84,8 +84,31 @@
                     </OnEvent>
                 </Scripts>
             </CheckButton>
-            <Slider name="BearForceOne_MGSSlider" inherits="OptionsSliderTemplate">
+            <CheckButton name="BearForceOne_AnimToggle" inherits="UICheckButtonTemplate">
                 <Anchors><Anchor relativeTo="BearForceOne_SoundToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="Enable achievement / level up animation" inherits="GameTooltipHeader">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad> self:RegisterEvent("VARIABLES_LOADED") </OnLoad>
+                    <OnClick> bfoConfig.ANIM_ENABLED = self:GetChecked() </OnClick>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if bfoConfig then self:SetChecked(bfoConfig.ANIM_ENABLED) end
+                        end
+                    </OnEvent>
+                </Scripts>
+            </CheckButton>
+            <Slider name="BearForceOne_MGSSlider" inherits="OptionsSliderTemplate">
+                <Anchors><Anchor relativeTo="BearForceOne_AnimToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="METAL GAY SOLID AMOUNT" outline="THICK" inherits="GameTooltipHeader">
@@ -118,7 +141,5 @@
                 </Scripts>
             </Slider>
         </Frames>
-        <Backdrop bgFile="Interface\AddOns\BearForceOne\Graphics\bg.tga">
-        </Backdrop>
     </Frame>
 </Ui>
