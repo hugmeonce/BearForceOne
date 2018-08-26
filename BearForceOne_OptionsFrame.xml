@@ -128,7 +128,6 @@
                         self:SetMinMaxValues(0,100);
                         self:SetValueStep(20);
                     </OnLoad>
-                    <OnClick> </OnClick>
                     <OnEvent>
                         if (event == "VARIABLES_LOADED") then
                             if not bfoConfig.MGS_PERCENT then bfoConfig.MGS_PERCENT = 0 end

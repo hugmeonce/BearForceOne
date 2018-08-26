@@ -67,7 +67,7 @@ local defaultConfig = {
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
   if bfoConfig.EMOTES_ENABLED and IsInGuild() then
-    SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
+    C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
   else
     originalDoEmote(emoteName)
   end
@@ -285,4 +285,4 @@ for k, v in pairs(events) do
  frame:RegisterEvent(k); -- Register all events for which handlers have been defined
 end
 
-RegisterAddonMessagePrefix(BEAR_FORCE_ONE_ADDON_PREFIX)
+C_ChatInfo.RegisterAddonMessagePrefix(BEAR_FORCE_ONE_ADDON_PREFIX)
