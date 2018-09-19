@@ -66,10 +66,16 @@ local defaultConfig = {
 -- Overriding DoEmote is probably a bad idea...
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
-  if bfoConfig.EMOTES_ENABLED and IsInGuild() then
-    C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, emoteName, "GUILD")
+  if bfoConfig.EMOTES_ENABLED then
+    C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, "emote " .. emoteName, "PARTY")
   else
     originalDoEmote(emoteName)
+  end
+end
+
+function MaybePlaySound(name)
+  if bfoConfig.EMOTES_ENABLED then
+    PlaySound(name)
   end
 end
 
@@ -225,7 +231,12 @@ function events:PLAYER_LEVEL_UP()
 end
 
 function events:CHAT_MSG_ADDON(prefix, msg, type, sender)
-  if prefix == BEAR_FORCE_ONE_ADDON_PREFIX and bfoConfig.EMOTES_ENABLED then originalDoEmote(msg) end
+ if prefix ~= BEAR_FORCE_ONE_ADDON_PREFIX or not bfoConfig.EMOTES_ENABLED then return end
+
+ type, name = string.match(msg, "(%S+) (%S+)")
+
+ if type == "emote" then originalDoEmote(name) end
+ if type == "sound" then MaybePlaySound(name) end
 end
 
 function events:GROUP_ROSTER_UPDATE()
@@ -235,9 +246,15 @@ function events:GROUP_ROSTER_UPDATE()
   playersInGroup = GetNumGroupMembers()
 end
 
-function events:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+function events:ENCOUNTER_START()
   if bfoConfig.MUSIC_ENABLED then
     PlayMusic(BOSS_MUSIC)
+  end
+end
+
+function events:ENCOUNTER_END()
+  if bfoConfig.MUSIC_ENABLED then
+    StopMusic()
   end
 end
 
@@ -272,10 +289,17 @@ end
 
 SLASH_BOYBOYSBOYS1 = '/boysboysboys';
 SLASH_BOYBOYSBOYS1 = '/bbb';
+SLASH_BEARFORCESOUND1 = '/bfo';
 local function handler()
  events:ACHIEVEMENT_EARNED()
 end
 SlashCmdList["BOYBOYSBOYS"] = handler;
+
+local function handler2(name)
+  C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, "sound " .. name, "PARTY")
+end
+
+SlashCmdList["BEARFORCESOUND"] = handler2;
 
 -- This may or may not be ripped straight out of the beginner's tutorial
 frame:SetScript("OnEvent", function(self, event, ...)
