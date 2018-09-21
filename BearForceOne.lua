@@ -248,14 +248,12 @@ end
 
 function events:ENCOUNTER_START()
   if bfoConfig.MUSIC_ENABLED then
-    print("playing boss music")
     PlayMusic(BOSS_MUSIC)
   end
 end
 
 function events:ENCOUNTER_END()
   if bfoConfig.MUSIC_ENABLED then
-    print("stopping boss music")
     StopMusic()
   end
 end
