@@ -66,7 +66,7 @@ local defaultConfig = {
 -- Overriding DoEmote is probably a bad idea...
 local originalDoEmote = DoEmote;
 DoEmote = function(emoteName)
-  if bfoConfig.EMOTES_ENABLED then
+  if bfoConfig.EMOTES_ENABLED and IsInGroup() then
     C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, "emote " .. emoteName, "PARTY")
   else
     originalDoEmote(emoteName)
@@ -248,12 +248,14 @@ end
 
 function events:ENCOUNTER_START()
   if bfoConfig.MUSIC_ENABLED then
+    print("playing boss music")
     PlayMusic(BOSS_MUSIC)
   end
 end
 
 function events:ENCOUNTER_END()
   if bfoConfig.MUSIC_ENABLED then
+    print("stopping boss music")
     StopMusic()
   end
 end
@@ -296,7 +298,11 @@ end
 SlashCmdList["BOYBOYSBOYS"] = handler;
 
 local function handler2(name)
-  C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, "sound " .. name, "PARTY")
+  if IsInGroup() then
+    C_ChatInfo.SendAddonMessage(BEAR_FORCE_ONE_ADDON_PREFIX, "sound " .. name, "PARTY")
+  else
+    MaybePlaySound(name)
+  end
 end
 
 SlashCmdList["BEARFORCESOUND"] = handler2;
