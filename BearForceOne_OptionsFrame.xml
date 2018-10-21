@@ -84,8 +84,31 @@
                     </OnEvent>
                 </Scripts>
             </CheckButton>
-            <CheckButton name="BearForceOne_AnimToggle" inherits="UICheckButtonTemplate">
+            <CheckButton name="BearForceOne_DungeonSoundToggle" inherits="UICheckButtonTemplate">
                 <Anchors><Anchor relativeTo="BearForceOne_SoundToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <FontString text="Enable dungeon sound effects" inherits="GameTooltipHeader">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <Anchors>
+                                <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parent">
+                                </Anchor>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad> self:RegisterEvent("VARIABLES_LOADED") </OnLoad>
+                    <OnClick> bfoConfig.DUNGEON_SOUND_ENABLED = self:GetChecked() </OnClick>
+                    <OnEvent>
+                        if (event == "VARIABLES_LOADED") then
+                            if bfoConfig then self:SetChecked(bfoConfig.DUNGEON_SOUND_ENABLED) end
+                        end
+                    </OnEvent>
+                </Scripts>
+            </CheckButton>
+            <CheckButton name="BearForceOne_AnimToggle" inherits="UICheckButtonTemplate">
+                <Anchors><Anchor relativeTo="BearForceOne_DungeonSoundToggle"><Offset x="0" y="-30"/></Anchor></Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
                         <FontString text="Enable achievement / level up animation" inherits="GameTooltipHeader">
