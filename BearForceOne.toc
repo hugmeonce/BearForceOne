@@ -2,7 +2,7 @@
 ## Title: Bear Force One
 ## Notes: SMD
 ## Author: shem
-## Version: 0.794
+## Version: 0.795
 ## SavedVariables: bfoConfig
 
 BearForceOne.lua
